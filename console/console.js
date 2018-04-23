@@ -216,16 +216,33 @@ var actions = {
 		try {
 			return {message: getItem(game.player.inventory, command.subject).use(), success: true};
 		} catch (itemNotInInventoryError) {
+			console.log(getItemName(game.player.inventory, command.subject));
 			return {message: 'Can\'t do that.', success: false};
 		}
-	}
-	attack: function(game, command){
+	},
+	
+	equip: function(game, command){
 		if(!command.subject){
-			return {message: "What do you want to attack?", success: false};
+			return {message: "What do you want to equip?", success: false};
 		}
-		try {
-			return {message: getItem(game.player.inventory, command.subject).use(), success: true};
-		} catch (i)
+		try{
+			equipWeapon(game.player, command.subject)
+			return {message: 'Equipped ' + command.subject, success: true};
+		} catch(e){
+			if(e == 'itemAlreadyEquipped'){
+				return {message: "You already have the " + command.subject + " equipped.", success: false};
+			} else if( e == "notEquippable"){
+				return {message: command.subject + " cannot be equipped.", success: false};
+			}else if(itemNotInInventoryError) {
+				return {message: "Can\'t do that.", success: false};
+			}
+		}
+	},
+	equipped: function(game, command){
+		if(game.player.weaponEquipped == "nothing"){
+			return {message: "You have no weapon equipped.", success: false};
+		}
+		return {message: "A " + game.player.weaponEquipped + " sits firmly in your grasp.", success: true};
 	}
 };
 
@@ -379,7 +396,22 @@ function interact(game, interaction, subject){
 		return getCurrentLocation(game).interactables[subject][interaction];
 	}
 }
-
+function equipItem(game, item){
+	const obj = getItem(game.player.inventory, item);
+	if(game.player.inventory.obj.equipped == true){
+		throw "itemAlreadyEquipped";
+	} else if(!game.player.inventory.obj.hasOwnProperty('equipped')){
+		throw "notEquippable";
+	} else{
+		
+	}
+}
+function equipWeapon(player, weapon){
+	const obj = getItem(player.inventory, weapon);
+	console.log(player.weaponEquipped);
+	
+	
+}
 function moveItem(itemName, startLocation, endLocation){
 	var itemName = getItemName(startLocation, itemName);
 	var itemAtOrigin = getItem(startLocation, itemName);

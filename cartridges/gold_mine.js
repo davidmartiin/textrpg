@@ -6,10 +6,26 @@ var gameData = {
 	outroText : 'Thanks For playing!',
 	player : {
 		currentLocation : 'MineEntrance',
-		inventory : {
-			
-		},
-		lightSource : false
+		inventory : {},
+		lightSource : false,
+		equipped: {
+			weapon: "nothing",
+			armor: {
+				head: "nothing",
+				chest: "nothing",
+				arms: "nothing",
+				legs: {
+					displayName: "Tattered pants",
+					description: "The frayed ends of these pants are a perfect metaphor for the frays in your life.",
+					quantity: 1,
+					hidden: false,
+					equipped: true
+					type: "armor",
+					armorType: "legs"
+				},
+				shoes: "nothing"
+			}
+		}
 	},
 	map : {
 		'MineEntrance' : {
@@ -28,6 +44,13 @@ var gameData = {
 					use : function(){return useLightSource();},
 					quantity : 1,
 					hidden : true
+				},
+				dagger: {
+					displayName: "Rusted Dagger",
+					description: "A dagger so far gone, you can't tell whether it was used to pick fights... or teeth.",
+					quantity: 1,
+					hidden: false,
+					equipped: false
 				}
 			},
 			exits : {
@@ -78,7 +101,6 @@ function end(){
 	}
 	gameData.gameOver = true;
 }
-
 function useLightSource(){
 	gameData.player.lightSource = true;
 	return 'You click on the light attached to the helmet.'

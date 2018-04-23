@@ -5,16 +5,17 @@ let gameData = {
 	player: {
 		currentLocation: 'Wake Up Zone',
 		inventory: {
-			rustedDagger: {
+			"Rusted Dagger": {
 				displayName: "Rusted Dagger",
 				description: "A dagger so far gone, you can't tell whether it was used to pick fights... or teeth.",
 				damageMin: 1,
 				damageMax: 2,
-				use: function(){
+				equip: function(){
 					return useWeapon(this. target);
 				},
 				quantity: 1,
-				hidden: false
+				hidden: false,
+				equipped: true
 			}
 		},
 		lightSource: false,
